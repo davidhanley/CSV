@@ -1,13 +1,21 @@
-# flag-csv
+# CSV
 
-FLAG CSV library. Fetched by MUSE from git and imported as `csv.lib`.
+FLAG CSV library: [MUSE](https://github.com/davidhanley/FLAG) fetches this repo
+and imports `csv.lib`.
 
-    {:libraries ["csv"]}
+```clojure
+{:libraries ["csv"]}
+```
 
-    {:namespace "app"
-     :imports   ["csv.lib"]}
+```clojure
+{:namespace "app"
+ :imports   ["csv.lib"]}
 
-    (csv/read-csv-path "data.csv")
+(csv/read-csv-path "data.csv")
+(csv/read-csv rdr {:fields-per-record -1 :lazy-quotes true})
+```
 
-The FLAG surface is libraries/csv.lib. Host adapters still live in flag-lang
-(runtime/csv_bind.go and libraries/csv).
+Layout:
+
+- `libraries/csv.lib` — FLAG surface (`:exports` / `:go-exports`)
+- `*.go` — pure Go reader (`github.com/davidhanley/CSV`), no FLAG runtime
