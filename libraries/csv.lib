@@ -1,5 +1,5 @@
-;; FLAG surface for the pure Go package libraries/csv.
-;; Adapters: runtime/csv_bind.go  Policy: docs/go-libraries.md
+;; FLAG surface for github.com/davidhanley/CSV.
+;; Adapters: flagbind/bind.go  Policy: docs/go-libraries.md
 ;;
 ;; (csv/read-csv-path path)
 ;; (csv/read-csv-path path {:fields-per-record -1 :lazy-quotes true})

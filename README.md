@@ -19,3 +19,4 @@ Layout:
 
 - `libraries/csv.lib` — FLAG surface (`:exports` / `:go-exports`)
 - `*.go` — pure Go reader (`github.com/davidhanley/CSV`), no FLAG runtime
+- `flagbind/` — FLAG adapters copied into generated builds
