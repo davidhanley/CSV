@@ -125,6 +125,8 @@ func csvOptionsFromValue(name string, v flagrt.Value) csvlib.Options {
 			opt.Comma = flagrt.GoArgRune(name, 0, e.Value)
 		case "comment", "Comment":
 			opt.Comment = flagrt.GoArgRune(name, 0, e.Value)
+		case "keep-blank-lines", "keepBlankLines", "KeepBlankLines":
+			opt.KeepBlankLines = flagrt.GoArgBool(name, 0, e.Value)
 		default:
 			panic(fmt.Sprintf("%s options: unknown key %q", name, key))
 		}

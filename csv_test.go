@@ -79,6 +79,62 @@ func TestReadAllFromReader(t *testing.T) {
 	}
 }
 
+func TestReadAllSkipsBlankLinesByDefault(t *testing.T) {
+	records, err := ReadString("name\n\n50\n1,bob\n", DefaultOptions())
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := [][]string{{"name"}, {"50"}, {"1", "bob"}}
+	if len(records) != len(want) {
+		t.Fatalf("record count: got %#v", records)
+	}
+	for i := range want {
+		if strings.Join(records[i], "|") != strings.Join(want[i], "|") {
+			t.Fatalf("record %d: got %#v want %#v", i, records[i], want[i])
+		}
+	}
+}
+
+func TestReadAllPreservesBlankLines(t *testing.T) {
+	opt := DefaultOptions()
+	opt.KeepBlankLines = true
+	records, err := ReadString("name\n\n50\n1,bob\n", opt)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := [][]string{{"name"}, {""}, {"50"}, {"1", "bob"}}
+	if len(records) != len(want) {
+		t.Fatalf("record count: got %#v", records)
+	}
+	for i := range want {
+		if strings.Join(records[i], "|") != strings.Join(want[i], "|") {
+			t.Fatalf("record %d: got %#v want %#v", i, records[i], want[i])
+		}
+	}
+}
+
+func TestReadAllPreservesCRLFBlankLines(t *testing.T) {
+	opt := DefaultOptions()
+	opt.KeepBlankLines = true
+	records, err := ReadString("date\r\n\r\n50\r\n", opt)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(records) != 3 || records[1][0] != "" || records[2][0] != "50" {
+		t.Fatalf("unexpected records: %#v", records)
+	}
+}
+
+func TestReadAllKeepsBlankInsideQuotedField(t *testing.T) {
+	records, err := ReadString("\"hello\n\nworld\"\n", DefaultOptions())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(records) != 1 || records[0][0] != "hello\n\nworld" {
+		t.Fatalf("unexpected quoted multiline: %#v", records)
+	}
+}
+
 func TestFieldsPerRecordOption(t *testing.T) {
 	opt := DefaultOptions()
 	opt.FieldsPerRecord = 2

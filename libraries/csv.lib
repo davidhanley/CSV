@@ -3,6 +3,7 @@
 ;;
 ;; (csv/read-csv-path path)
 ;; (csv/read-csv-path path {:fields-per-record -1 :lazy-quotes true})
+;; (csv/read-csv rdr {:keep-blank-lines true})
 ;; (csv/read-csv rdr)   ; path string, open file/reader, or line seq
 {:namespace "csv"
  :exports   [read-csv read-csv-path read-csv-reader read-csv-lines]
